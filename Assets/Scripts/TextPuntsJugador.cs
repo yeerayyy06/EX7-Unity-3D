@@ -5,19 +5,27 @@ public class TextPuntsJugador : MonoBehaviour
     private TMPro.TextMeshProUGUI _puntsText;
     private int _puntsInt;
 
+    // Lazy getter: funciona fins i tot si l'objecte estava inactiu quan Start() no es va cridar
+    private TMPro.TextMeshProUGUI Text
+    {
+        get
+        {
+            if (_puntsText == null)
+                _puntsText = GetComponent<TMPro.TextMeshProUGUI>();
+            return _puntsText;
+        }
+    }
+
     void Start()
     {
-        _puntsText = GetComponent<TMPro.TextMeshProUGUI>();
         _puntsInt = 0;
-        ValorsGlobals.videsActuals = 3;
-        ValorsGlobals.videsAgafades = 0;
     }
 
     public void setPuntsJugador(int nousPunts)
     {
         _puntsInt += nousPunts;
-        _puntsText.text = "Punts: " + _puntsInt;
-        ValorsGlobals.puntsAconseguits = _puntsText.text;
+        Text.text = "Punts: " + _puntsInt;
+        ValorsGlobals.puntsAconseguits = Text.text;
     }
 
     public int getPuntsJugador() => _puntsInt;
@@ -25,6 +33,7 @@ public class TextPuntsJugador : MonoBehaviour
     public void InicialitzarPunts()
     {
         _puntsInt = 0;
-        _puntsText.text = "Punts: 0";
+        Text.text = "Punts: 0";
+        ValorsGlobals.puntsAconseguits = "Punts: 0";
     }
 }

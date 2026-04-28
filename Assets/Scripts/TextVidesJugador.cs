@@ -4,15 +4,20 @@ public class TextVidesJugador : MonoBehaviour
 {
     private TMPro.TextMeshProUGUI _videsText;
 
-    void Start()
+    // Lazy getter: funciona fins i tot si l'objecte estava inactiu quan Start() no es va cridar
+    private TMPro.TextMeshProUGUI Text
     {
-        _videsText = GetComponent<TMPro.TextMeshProUGUI>();
-        ActualitzarText();
+        get
+        {
+            if (_videsText == null)
+                _videsText = GetComponent<TMPro.TextMeshProUGUI>();
+            return _videsText;
+        }
     }
 
     public void ActualitzarText()
     {
-        _videsText.text = "Vides: " + ValorsGlobals.videsActuals;
+        Text.text = "Vides: " + ValorsGlobals.videsActuals;
     }
 
     public void AfegirVida()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class ValorsGlobals
 {
-    public static string puntsAconseguits;
+    public static string puntsAconseguits = "Punts: 0";
     public static int videsAgafades;
     public static int videsActuals = 3;
 

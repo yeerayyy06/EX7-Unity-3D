@@ -116,11 +116,13 @@ public static class ProjectSetup
         return mat;
     }
 
-    static void SetKinematicRigidbody(GameObject go)
+    static void SetPhysicsRigidbody(GameObject go)
     {
         var rb = go.AddComponent<Rigidbody>();
-        rb.useGravity  = false;
-        rb.isKinematic = true;
+        rb.useGravity    = false;
+        rb.isKinematic   = false; // NO kinematic: garanteix detecció de triggers 3D
+        rb.constraints   = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     static GameObject SavePrefab(GameObject go, string name)
@@ -151,7 +153,7 @@ public static class ProjectSetup
         go.transform.localScale = Vector3.one * 0.3f;
         go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         go.GetComponent<SphereCollider>().isTrigger = true;
-        SetKinematicRigidbody(go);
+        SetPhysicsRigidbody(go);
         go.AddComponent(script);
         return SavePrefab(go, name);
     }
@@ -163,7 +165,7 @@ public static class ProjectSetup
         go.transform.localScale = Vector3.one * 0.6f;
         go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         go.GetComponent<BoxCollider>().isTrigger = true;
-        SetKinematicRigidbody(go);
+        SetPhysicsRigidbody(go);
         go.AddComponent<ObjecteVida>();
         return SavePrefab(go, "ObjecteVida");
     }
@@ -176,9 +178,11 @@ public static class ProjectSetup
         go.transform.localScale = new Vector3(1f, 0.25f, 1.5f);
         go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         go.GetComponent<BoxCollider>().isTrigger = true;
-        SetKinematicRigidbody(go);
-        go.AddComponent<NauEnemic>()._ExplosioPrefab = explosio;
-        go.AddComponent<GeneradorProjectilEnemic>()._ProjectilEnemicPrefab = projEnemic;
+        SetPhysicsRigidbody(go);
+        var sNauE = go.AddComponent<NauEnemic>();
+        sNauE._ExplosioPrefab = explosio;
+        var sGenPE = go.AddComponent<GeneradorProjectilEnemic>();
+        sGenPE._ProjectilEnemicPrefab = projEnemic;
         return SavePrefab(go, "NauEnemic");
     }
 
@@ -190,7 +194,7 @@ public static class ProjectSetup
         go.transform.localScale = new Vector3(1.5f, 0.25f, 2f);
         go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         go.GetComponent<BoxCollider>().isTrigger = true;
-        SetKinematicRigidbody(go);
+        SetPhysicsRigidbody(go);
         var s = go.AddComponent<NauEnemicEspecial>();
         s._ExplosioPrefab        = explosio;
         s._ProjectilEnemicPrefab = projEsp;
@@ -205,9 +209,11 @@ public static class ProjectSetup
         go.transform.localScale = new Vector3(1f, 0.25f, 1.5f);
         go.GetComponent<MeshRenderer>().sharedMaterial = mat;
         go.GetComponent<BoxCollider>().isTrigger = true;
-        SetKinematicRigidbody(go);
-        go.AddComponent<NauJugador>()._ExplosioPrefab = explosio;
-        go.AddComponent<GeneradorProjectils>()._ProjectilPrefab = projJug;
+        SetPhysicsRigidbody(go);
+        var sNauJ = go.AddComponent<NauJugador>();
+        sNauJ._ExplosioPrefab = explosio;
+        var sGenJ = go.AddComponent<GeneradorProjectils>();
+        sGenJ._ProjectilPrefab = projJug;
         return SavePrefab(go, "NauJugador");
     }
 

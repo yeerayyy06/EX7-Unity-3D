@@ -7,14 +7,10 @@ public class GeneradorEnemics : MonoBehaviour
 
     private int _comptadorEnemics = 0;
 
-    void Start()
-    {
-        IniciGeneraEnemics();
-    }
-
     public void IniciGeneraEnemics()
     {
         _comptadorEnemics = 0;
+        CancelInvoke("CreaEnemic"); // evita doble InvokeRepeating si es crida més d'un cop
         InvokeRepeating("CreaEnemic", 2f, 1f);
     }
 
